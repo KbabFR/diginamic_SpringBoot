@@ -47,7 +47,7 @@ public class SpeciesApplication implements CommandLineRunner {
 //        testAnimalRepo2();
 
         // TP 06 - Intf custom
-        testPersonRepoImpl();
+        // testPersonRepoImpl();
     }
 
     private void testSpeciesRepo() {

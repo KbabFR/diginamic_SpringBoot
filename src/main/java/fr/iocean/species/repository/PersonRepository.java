@@ -30,7 +30,7 @@ public interface PersonRepository extends JpaRepository<Person, Integer>, Person
      * @param ageMin l'age minimum requis par la Personne
      * @param ageMax l'age maximum requis par la Personne
      */
-    @Query("select p from Person p where p.age between :ageMin and :ageMax")
+    @Query(value = "select p from Person p where p.age between :ageMin and :ageMax")
     List<Person> findPersonWhereAgeBetween(
             @Param("ageMin") Integer ageMin,
             @Param("ageMax") Integer ageMax);
