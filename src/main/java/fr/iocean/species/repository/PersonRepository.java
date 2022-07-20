@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PersonRepository extends JpaRepository<Person, Integer> {
+public interface PersonRepository extends JpaRepository<Person, Integer>, PersonRepositoryCustom {
     /**
      * Retourne les personnes ayant pour nom le premier paramètre fourni ou
      * ayant pour prénom le second paramètre fourni
@@ -37,7 +37,7 @@ public interface PersonRepository extends JpaRepository<Person, Integer> {
 
     /**
      * Chercher toutes les Personnes qui possèdent l’animal donné en paramètre
-     * SOLUTION 2 avec un inner join
+     * SOLUTION 1 avec un inner join
      * @param animal l'animal que doivent 'posséder' les personnes retournées
      */
     @Query("select p from Person p inner join p.animals a where :animal = a")

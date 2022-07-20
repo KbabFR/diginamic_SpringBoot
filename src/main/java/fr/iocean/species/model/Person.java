@@ -18,6 +18,11 @@ public class Person {
     private Integer age;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "person_animals",
+            joinColumns = {@JoinColumn(name = "person_id")},
+            inverseJoinColumns = {@JoinColumn(name = "animals_id")}
+    )
     Set<Animal> animals;
 
     // Utility

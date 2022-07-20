@@ -12,6 +12,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import javax.transaction.Transactional;
 import java.util.Arrays;
 
 @SpringBootApplication
@@ -33,6 +34,7 @@ public class SpeciesApplication implements CommandLineRunner {
     }
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         // TP 04 - Requêtes dérivées du nom
 //        testSpeciesRepo();
@@ -40,9 +42,12 @@ public class SpeciesApplication implements CommandLineRunner {
 //        testAnimalRepo();
 
         // TP 05 - @Query
-        testSpeciesRepo2();
-        testPersonRepo2();
-        testAnimalRepo2();
+//        testSpeciesRepo2();
+//        testPersonRepo2();
+//        testAnimalRepo2();
+
+        // TP 06 - Intf custom
+        testPersonRepoImpl();
     }
 
     private void testSpeciesRepo() {
@@ -97,11 +102,32 @@ public class SpeciesApplication implements CommandLineRunner {
         Animal a6 = this.animalRepository.findById(6).orElse(null);
         logger.info(">>> Animal id=6 a-t-il un propriétaire ? {}",
                 this.animalRepository.animalHasOwner(a6));
-        Animal a7 = this.animalRepository.findById(7).orElse(null);
-        logger.info(">>> Animal id=7 a-t-il un propriétaire ? {}",
-                this.animalRepository.animalHasOwner(a7));
 
+        logger.info(">>> Animal id=6 a-t-il un propriétaire ? (solution avec mapped by sans query) {}",
+                a6.getPersons().isEmpty());
+
+
+        // Ajout d'un nouvel animal sans propriétaire :
+        Animal newAnim = new Animal();
+        newAnim.setSpecies(this.speciesRepository.findFirstByCommonName("Chien"));
+        newAnim.setColor("Brun");
+        newAnim.setName("Babouche");
+        newAnim.setSex(Sex.M);
+        this.animalRepository.save(newAnim);
+        logger.info(">>> Nouvel animal a-t-il un propriétaire ? {}",
+                this.animalRepository.animalHasOwner(newAnim));
+
+        // class cast exception
         logger.info(">>> Animal id=6 a-t-il un propriétaire ? {}",
                 this.animalRepository.animalHasOwnerSql(6));
+    }
+
+    private void testPersonRepoImpl() {
+        logger.info(">>> Supprimer les Personnes sans animaux");
+        logger.info(">>> Nombre de personnes supprimées : {}",
+            this.personRepository.deletePersonsWithoutAnimal());
+
+        logger.info(">>> Insérer 20 personnes aléatoires");
+        this.personRepository.insertRandomPersons(200);
     }
 }

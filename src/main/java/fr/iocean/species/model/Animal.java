@@ -3,6 +3,7 @@ package fr.iocean.species.model;
 import fr.iocean.species.enums.Sex;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Animal {
@@ -22,7 +23,18 @@ public class Animal {
     @ManyToOne
     private Species species;
 
+    @ManyToMany(mappedBy = "animals")
+    Set<Person> persons;
+
     // Getters / setters
+
+    public Set<Person> getPersons() {
+        return persons;
+    }
+
+    public void setPersons(Set<Person> persons) {
+        this.persons = persons;
+    }
 
     public Integer getId() {
         return id;

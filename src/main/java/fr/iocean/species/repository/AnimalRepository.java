@@ -32,20 +32,26 @@ public interface AnimalRepository extends JpaRepository<Animal, Integer> {
     @Query("select count(a) from Animal a where a.sex = :sex")
     Integer countBySex(@Param("sex") Sex sex);
 
+
     /**
      * Renvoie true si l’animal fourni « appartient » à au moins une personne, false sinon.
+     * Solution qui n'utilise pas le mapped by
      */
-    @Query(value = "select NOT EXISTS (" +
-        " select * from animal" +
-        " join person_animals on animals_id = animal.id" +
-        " join person on person.id = person_id" +
-        " where animal.id = :animalId" +
-        " )", nativeQuery = true)
-    Boolean animalHasOwnerSql(@Param("animalId") Integer animalId);
-
-    @Query("select case when count(p) > 0 then true else false end from Person p where :animal member of p.animals ")
+    @Query("select case when count(p) > 0 then true else false end" +
+            " from Person p where :animal member of p.animals ")
     Boolean animalHasOwner(@Param("animal") Animal animal);
 
-
+    /**
+     * Renvoie true si l’animal fourni « appartient » à au moins une personne, false sinon.
+     * EN SQL (à corriger : class cast exception quand on utilise cette méthode)
+     */
+//    @Query(value = "select NOT EXISTS (" +
+//            " select * from animal" +
+//            " join person_animals on animals_id = animal.id" +
+//            " join person on person.id = person_id" +
+//            " where animal.id = :animalId" +
+//            " )", nativeQuery = true)
+    @Query(value = "select count(*) > 0 from person_animals where animals_id = :animalId", nativeQuery = true)
+    Boolean animalHasOwnerSql(@Param("animalId") Integer animalId);
 
 }
