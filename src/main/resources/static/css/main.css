@@ -1,0 +1,53 @@
+/*
+* {
+    font-family: Arial, sans-serif;
+}
+body {
+	background-color:  #eee;
+}
+table, tr, th {
+	border: 2px solid #aaa;
+}
+*/
+html {
+	font-family: Arial, sans-serif;
+}
+
+a {
+	font-weight: bold;
+	text-decoration: none;
+	color: #6c9f00;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+table,
+tr,
+th,
+td {
+	border: 1px solid #999;
+}
+
+.menu>li {
+	list-style: none;
+}
+
+button,
+input[type="button"],
+input[type="submit"] {
+	background-color: #aece45;
+	color: black;
+	padding: 10px;
+	border-radius: 10px;
+	border: 1px solid #999;
+}
+
+form>div {
+	padding: 0.5rem;
+}
+
+.red {
+	color: red;
+}

@@ -1,0 +1,50 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" th:href="@{/css/main.css}" />
+  <meta charset="UTF-8" />
+  <title>Créer un Animal</title>
+</head>
+
+<body>
+  <form th:object="${animal}" th:action="@{/animal}" method="post">
+  	<input type="hidden" th:field="*{id}" />
+  	
+  	<div>
+  	  <label for="name">Nom :</label>
+  	  <input type="text" th:field="*{name}"/>
+  	</div>
+  	
+  	<div>
+  	  <label for="color">Couleur :</label>
+  	  <input type="text" th:field="*{color}"/>
+  	</div>
+  	
+  	<div>
+  	  <label for="sex">Sexe :</label>
+  	  <select th:field="*{sex}">
+  	    <option th:value="F">Femelle</option>
+  	    <option th:value="M">Mâle</option>
+  	  </select>
+  	</div>
+  	
+  	<div>
+  	  <label for="species">Espèce :</label>
+  	  <!-- POUR remplir la liste deroulante de Species, il faut
+  	       ajouter une liste contenant toutes les Species dans le
+  	       modèle -->
+  	  <select th:field="*{species}">
+  	    <option 
+  	      th:each="speciesItem : ${allSpecies}"
+  	      th:text="${speciesItem.commonName}"
+  	      th:value="${speciesItem.id}"
+  	     ></option>
+  	  </select>
+  	</div>
+  	
+  	<div>
+  	  <button type="submit">Sauver</button>
+  	  <button type="button" onclick="window.location='/animal'">Retour</button>
+  	</div>
+  </form>
+</body>
+</html>
